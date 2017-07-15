@@ -124,6 +124,7 @@ bindsym $mod+Shift+0 move container to workspace 10
 assign[class="Google-chrome"] $workspace2
 #assign[class="Spotify"] $workspace3
 for_window [class="Spotify"] move to workspace $workspace3
+for_window [instance="google-chrome"] floating enable
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
