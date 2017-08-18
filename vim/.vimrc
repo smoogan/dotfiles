@@ -14,6 +14,9 @@ Plug 'swekaj/php-foldexpr.vim'
 
 Plug 'altercation/vim-colors-solarized'
 
+Plug 'morhetz/gruvbox'
+
+Plug 'junegunn/goyo.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 
 Plug 'scrooloose/nerdtree'
@@ -45,18 +48,40 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
+let g:lightline = {'colorscheme': 'gruvbox'}
+
+let g:lightline.active = {
+    \ 'left': [ [ 'mode', 'paste' ],
+    \           [ 'gitbranch' ],
+    \           [ 'readonly', 'filename', 'modified' ] ],
+    \ 'right': [ [ 'lineinfo' ],
+    \            [ 'percent' ],
+    \            [ 'fileformat', 'fileencoding', 'filetype' ] ] }
+let g:lightline.inactive = {
+    \ 'left': [ [ 'filename' ] ],
+    \ 'right': [ [ 'lineinfo' ],
+    \            [ 'percent' ] ] }
+let g:lightline.tabline = {
+    \ 'left': [ [ 'tabs' ] ],
+    \ 'right': [ [ 'close' ] ] }
+let g:lightline.component_function = {
+    \ 'gitbranch': 'fugitive#head' }
+
 " Solarized Settings
 let g:solarized_termcolors=256
 let g:solarized_contrast="high"
 let g:solarized_italic=0
 let &t_Co = 256
 set background=dark
-colorscheme solarized
+" colorscheme solarized
+colorscheme gruvbox
+set guifont=DejaVu\ Sans\ Mono:h10
 
 "CtrlP Settings
 let g:ctrlp_lazy_update = 100
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_max_files = 40000
+let g:ctrlp_working_path_mode = 'rw'
 
 " Indent Guides Settings
 let g:indent_guides_enable_on_vim_startup=0
@@ -130,3 +155,5 @@ if exists('+shellslash')
     " Use forward slash in windows
     set shellslash
 endif
+" Requires the DLL from: http://www.vim.org/scripts/script.php?script_id=2596
+map <F11> <Esc>:call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 0)<CR>
