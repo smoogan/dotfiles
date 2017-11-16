@@ -53,8 +53,6 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 
-let g:tagbar_ctags_bin = 'C:/Program Files (x86)/Vim/ctags/ctags.exe'
-
 " LightLine Settings
 let g:lightline = {'colorscheme': 'gruvbox'}
 let g:lightline.active = {
@@ -75,12 +73,29 @@ let g:lightline.component_function = {
     \ 'gitbranch': 'fugitive#head' }
 
 " ColorScheme Settings
+if &term =~ '256color'
+    " Disable Background Color Erase (BCE) so that color schemes
+    " work properly when Vim is used inside tmux, GNU screen, or WSL.
+    set t_ut=
+endif
 let g:gruvbox_italic=1
 let g:gruvbox_bold=1
 let g:gruvbox_italicize_comments=0
+let g:gruvbox_invert_selection=0
 set background=dark
 colorscheme gruvbox
-set guifont=DejaVu\ Sans\ Mono:h10
+if exists('+guifont')
+    set guifont=DejaVu\ Sans\ Mono:h10
+endif
+
+" Tagbar config
+if filereadable('C:/Program Files (x86)/Vim/ctags/ctags.exe')
+    let g:tagbar_ctags_bin = 'C:/Program Files (x86)/Vim/ctags/ctags.exe'
+endif
+highlight! link TagbarVisibilityPublic GruvboxGreen
+highlight! link TagbarVisibilityProtected GruvboxBlue
+highlight! link TagbarVisibilityPrivate GruvboxRed
+
 
 let g:gitgutter_diff_args = '-w'
 
@@ -89,9 +104,9 @@ let g:ctrlp_lazy_update = 100
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_max_files = 0
 let g:ctrlp_working_path_mode = 'rw'
-if executable('bash')
-    let g:ctrlp_user_command = 'bash -c ag %s -l --nocolor -g ""'
-endif
+" if executable('bash')
+"     let g:ctrlp_user_command = 'bash -c ag %s -l --nocolor -g ""'
+" endif
 
 " Indent Guides Settings
 let g:indent_guides_enable_on_vim_startup=0
@@ -131,6 +146,8 @@ set shiftwidth=4
 set expandtab
 set list
 set listchars=tab:»–,trail:¤
+
+inoremap {<CR> {<CR>}<Esc>ko
 
 set splitbelow
 set splitright
@@ -181,4 +198,6 @@ endif
 
 " Requires the DLL from: http://www.vim.org/scripts/script.php?script_id=2596
 "  (won't do anything in neovim)
-map <F11> <Esc>;call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 0)<CR>
+if exists('+libcall')
+    map <F11> <Esc>;call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 0)<CR>
+endif
