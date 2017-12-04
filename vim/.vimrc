@@ -89,8 +89,11 @@ if exists('+guifont')
 endif
 
 " Tagbar config
+" On linux use 'universal-ctags' for PHP support
 if filereadable('C:/Program Files (x86)/Vim/ctags/ctags.exe')
     let g:tagbar_ctags_bin = 'C:/Program Files (x86)/Vim/ctags/ctags.exe'
+elseif executable('unictags')
+    let g:tagbar_ctags_bin = 'unictags'
 endif
 highlight! link TagbarVisibilityPublic GruvboxGreen
 highlight! link TagbarVisibilityProtected GruvboxBlue
@@ -145,7 +148,7 @@ set softtabstop=4
 set shiftwidth=4
 set expandtab
 set list
-set listchars=tab:»–,trail:¤
+set listchars=tab:>–,trail:+
 
 inoremap {<CR> {<CR>}<Esc>ko
 
@@ -180,7 +183,7 @@ augroup whitespacefix
     autocmd BufWritePre * :call <SID>StripTrailingNewLines()
     autocmd BufWritePre *.php :retab
 augroup end
-
+autocmd InsertEnter,InsertLeave * set cul!
 
 " GUI options
 set mouse=a
