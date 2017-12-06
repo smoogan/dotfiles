@@ -70,7 +70,13 @@ let g:lightline.tabline = {
     \ 'left': [ [ 'tabs' ] ],
     \ 'right': [ [ 'close' ] ] }
 let g:lightline.component_function = {
-    \ 'gitbranch': 'fugitive#head' }
+    \ 'gitbranch': 'GitBranchTrimmed' }
+
+function! GitBranchTrimmed()
+    let gitbranch = fugitive#head()
+    let pattern = '\w\{1,}/\w\{1,}-\d\{1,}'
+    return matchstr(gitbranch, pattern)
+endfun
 
 " ColorScheme Settings
 if &term =~ '256color'
@@ -150,7 +156,7 @@ set expandtab
 set list
 set listchars=tab:>–,trail:+
 
-inoremap {<CR> {<CR>}<Esc>ko
+inoremap {<CR> {<CR>}<Esc>O
 
 set splitbelow
 set splitright
