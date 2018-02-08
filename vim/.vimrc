@@ -113,6 +113,8 @@ let g:ctrlp_lazy_update = 100
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_max_files = 0
 let g:ctrlp_working_path_mode = 'rw'
+" If file is open in buffer on another tab, open a new buffer with the file
+let g:ctrlp_switch_buffer = 'et'
 " if executable('bash')
 "     let g:ctrlp_user_command = 'bash -c ag %s -l --nocolor -g ""'
 " endif
@@ -157,6 +159,12 @@ set list
 set listchars=tab:>–,trail:+
 
 inoremap {<CR> {<CR>}<Esc>O
+" <82> = Ctrl + Shift + b
+" <8e> = Ctrl + Shift + n
+noremap  :NERDTreeToggle<CR><C-W>=
+noremap  :NERDTreeFind<CR><C-W>=
+" <94> = Ctrl + Shift + t
+noremap  :TagbarToggle<CR><C-W>=
 
 set splitbelow
 set splitright
@@ -167,6 +175,9 @@ let &showbreak='> '
 " Only support unix file formats (will cause dos endings to be displayed)
 " Use `set fileformat=unix` to convert the file
 set fileformats=unix
+" When pressing 'O' or 'o' on a commented line, don't automatically add
+" comments (this is an autocmd because of of the c plugin for vim)
+autocmd BufNewFile,BufRead * setlocal formatoptions-=o
 
 " File specific settings
 autocmd BufReadPost *.sls set syntax=yaml
