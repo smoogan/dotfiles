@@ -149,10 +149,6 @@ set fileformats=unix
 " comments (this is an autocmd because of of the c plugin for vim)
 autocmd BufNewFile,BufRead * setlocal formatoptions-=o
 
-" File specific settings
-autocmd BufReadPost *.sls set syntax=yaml
-autocmd BufReadPost *.sls set filetype=yaml
-
 " Remove trailing whitespace on save and restore cursor to last position
 function! <SID>StripTrailingWhitespace()
     let saved_cursor = getcurpos()
