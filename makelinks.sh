@@ -41,11 +41,13 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 if [ $vim ]; then
     mkdir --parents $HOME/.vim/php/
     mkdir --parents $HOME/.vim/csharp/
+    mkdir --parents $HOME/.vim/haskell/
     ln --force --symbolic $DIR/vim/.vimrc $HOME/.vimrc
     ln --force --symbolic $DIR/vim/baseplugins.vim $HOME/.vim/baseplugins.vim
     ln --force --symbolic $DIR/vim/php/php.vim $HOME/.vim/php/php.vim
     ln --force --symbolic $DIR/vim/csharp/csharp.vim $HOME/.vim/csharp/csharp.vim
     ln --force --symbolic $DIR/vim/csharp/omnisharpMappings.vim $HOME/.vim/csharp/omnisharpMappings.vim
+    ln --force --symbolic $DIR/vim/haskell/haskell.vim $HOME/.vim/haskell/haskell.vim
 fi
 
 # i3wm (sudo apt install i3-wm i3blocks rofi)
