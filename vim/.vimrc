@@ -1,69 +1,30 @@
 scriptencoding utf-8
+set nocompatible
 
-call plug#begin('~/.vim/plugged')
+" curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+"     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+let PLUG_DIRECTORY = "~/.vim/plugged"
+source ~/.vim/baseplugins.vim
 
-Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-repeat'
+call plug#begin(PLUG_DIRECTORY)
 
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
-
-Plug 'tpope/vim-commentary'
-
-Plug 'vim-syntastic/syntastic'
-
-Plug 'swekaj/php-foldexpr.vim'
-
-Plug 'majutsushi/tagbar'
-
-Plug 'morhetz/gruvbox'
-
-Plug 'junegunn/goyo.vim'
-Plug 'ctrlpvim/ctrlp.vim'
-
-Plug 'scrooloose/nerdtree'
-
-Plug 'valloric/youcompleteme'
-" Plug 'ajh17/VimCompletesMe'
-" Plug 'shawncplus/phpcomplete.vim'
-
-" Invoke with \\w for beginnings of words
-Plug 'easymotion/vim-easymotion'
-
-Plug 'nathanaelkane/vim-indent-guides'
-
-Plug 'itchyny/lightline.vim'
-
-Plug 'joonty/vdebug'
-
-Plug 'Glench/Vim-Jinja2-Syntax'
-Plug 'saltstack/salt-vim'
+call Load_base_plugins(PLUG_DIRECTORY)
 
 call plug#end()
 
-" Syntastic Settings
-set statusline&
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_php_checkers=["php"]
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
+nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 
 " LightLine Settings
 let g:lightline = {'colorscheme': 'gruvbox'}
 let g:lightline.active = {
     \ 'left': [ [ 'mode', 'paste' ],
-    \           [ 'gitbranch' ],
+    \           [ 'gitbranch'],
     \           [ 'readonly', 'filename', 'modified' ] ],
-    \ 'right': [ [ 'lineinfo' ],
-    \            [ 'percent' ],
-    \            [ 'fileformat', 'fileencoding', 'filetype' ] ] }
+    \ 'right': [ [ 'percent', 'lineinfo' ],
+    \            [ 'fileformat', 'fileencoding', 'filetype' ],
+    \            [ 'syntastic'] ] }
 let g:lightline.inactive = {
-    \ 'left': [ [ 'filename', 'modified' ] ],
+    \ 'left': [ [ 'filename', 'modified'] ],
     \ 'right': [ [ 'lineinfo' ],
     \            [ 'percent' ] ] }
 let g:lightline.tabline = {
@@ -71,12 +32,14 @@ let g:lightline.tabline = {
     \ 'right': [ [ 'close' ] ] }
 let g:lightline.component_function = {
     \ 'gitbranch': 'GitBranchTrimmed' }
-
 function! GitBranchTrimmed()
     let gitbranch = fugitive#head()
+    return gitbranch
     let pattern = '\w\{1,}/\w\{1,}-\d\{1,}'
     return matchstr(gitbranch, pattern)
 endfun
+set noshowmode
+
 
 " ColorScheme Settings
 if &term =~ '256color'
@@ -94,18 +57,6 @@ if exists('+guifont')
     set guifont=DejaVu\ Sans\ Mono:h10
 endif
 
-" Tagbar config
-" On linux use 'universal-ctags' for PHP support
-if filereadable('C:/Program Files (x86)/Vim/ctags/ctags.exe')
-    let g:tagbar_ctags_bin = 'C:/Program Files (x86)/Vim/ctags/ctags.exe'
-elseif executable('unictags')
-    let g:tagbar_ctags_bin = 'unictags'
-endif
-highlight! link TagbarVisibilityPublic GruvboxGreen
-highlight! link TagbarVisibilityProtected GruvboxBlue
-highlight! link TagbarVisibilityPrivate GruvboxRed
-
-
 let g:gitgutter_diff_args = '-w'
 
 "CtrlP Settings
@@ -113,6 +64,7 @@ let g:ctrlp_lazy_update = 100
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_max_files = 0
 let g:ctrlp_working_path_mode = 'rw'
+let g:ctrlp_root_markers = ['.gita']
 " If file is open in buffer on another tab, open a new buffer with the file
 let g:ctrlp_switch_buffer = 'et'
 " if executable('bash')
@@ -124,16 +76,7 @@ let g:indent_guides_enable_on_vim_startup=0
 let g:indent_guides_guide_size=1
 let g:indent_guides_color_change_percent=90
 
-let g:vdebug_options = {}
-
-" PHP Code Folding
 set foldmethod=expr
-let g:phpfold_heredocs = 1
-let g:phpfold_docblocks = 1
-let g:phpfold_doc_with_funcs = 0
-let g:phpfold_text_right_lines = 1
-let g:phpfold_text_percent = 1
-set foldmethod=indent
 set foldlevel=4
 
 " Setting this to an empty array so we can set project specific values
@@ -152,6 +95,13 @@ map! <C-BS> <C-W>
 noremap : ;
 noremap ; :
 
+" TAB mappings
+" noremap tn :tabedit
+" noremap tk :tabnext<CR>
+" noremap tj :tabprevious<CR>
+" noremap th :tabfirst<CR>
+" noremap tl :tablast<CR>
+
 set softtabstop=4
 set shiftwidth=4
 set expandtab
@@ -166,15 +116,28 @@ noremap  :NERDTreeFind<CR><C-W>=
 " <94> = Ctrl + Shift + t
 noremap  :TagbarToggle<CR><C-W>=
 
+" Tagbar config
+" On linux use 'universal-ctags' for PHP support
+if filereadable('C:/Program Files (x86)/Vim/ctags/ctags.exe')
+    let g:tagbar_ctags_bin = 'C:/Program Files (x86)/Vim/ctags/ctags.exe'
+elseif executable('unictags')
+    let g:tagbar_ctags_bin = 'unictags'
+endif
+highlight! link TagbarVisibilityPublic GruvboxGreen
+highlight! link TagbarVisibilityProtected GruvboxBlue
+highlight! link TagbarVisibilityPrivate GruvboxRed
+
+set equalalways
 set splitbelow
 set splitright
 
-set colorcolumn=80
+set colorcolumn=81,121
 let &showbreak='> '
 
 " Only support unix file formats (will cause dos endings to be displayed)
 " Use `set fileformat=unix` to convert the file
 set fileformats=unix
+
 " When pressing 'O' or 'o' on a commented line, don't automatically add
 " comments (this is an autocmd because of of the c plugin for vim)
 autocmd BufNewFile,BufRead * setlocal formatoptions-=o
