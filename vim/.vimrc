@@ -1,5 +1,6 @@
 scriptencoding utf-8
 set nocompatible
+set exrc
 
 " curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
 "     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -184,3 +185,5 @@ endif
 if exists('+libcall')
     map <F11> <Esc>;call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 0)<CR>
 endif
+
+set secure
