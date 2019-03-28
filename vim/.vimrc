@@ -11,6 +11,12 @@ call plug#begin(PLUG_DIRECTORY)
 
 call Load_base_plugins(PLUG_DIRECTORY)
 
+" Haskell support
+Plug 'eagletmt/neco-ghc'
+Plug 'eagletmt/ghcmod-vim'
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+Plug 'neovimhaskell/haskell-vim'
+
 call plug#end()
 
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
@@ -185,5 +191,13 @@ endif
 if exists('+libcall')
     map <F11> <Esc>;call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 0)<CR>
 endif
+
+" Disable haskell-vim omnifunc
+let g:haskellmode_completion_ghc = 0
+autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+let g:ycm_semantic_triggers = {'haskell' : ['.']}
+let $PATH .= (":" . $HOME . "/.cabal/bin" . ":" . $HOME . "/.local/bin")
+
+autocmd BufWritePost *.hs :GhcModCheckAndLintAsync
 
 set secure
