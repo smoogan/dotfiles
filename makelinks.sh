@@ -39,6 +39,10 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # VIM
 if [ $vim ]; then
+    if [ ! -f $HOME/.vim/autoload/plug.vim ]; then
+        curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    fi
     mkdir --parents $HOME/.vim/php/
     mkdir --parents $HOME/.vim/csharp/
     mkdir --parents $HOME/.vim/haskell/
