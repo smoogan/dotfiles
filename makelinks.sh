@@ -75,8 +75,13 @@ if [ $i3 ]; then
         rm -f $TempDir/$FontawesomeName.zip
         rm -r $TempDir
     fi
+
     ln --force --symbolic $DIR/i3/i3blocks.conf $HOME/.config/i3/i3blocks.conf
     ln --force --symbolic $DIR/i3/config $HOME/.config/i3/config
+
+    git clone https://github.com/vivien/i3blocks-contrib.git \
+        $HOME/.config/i3/i3blocks-scripts
+    make $HOME/.config/i3/i3blocks-scripts
 fi
 
 # tmux
