@@ -33,6 +33,9 @@ bindsym $mod+Shift+q kill
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu='dmenu -i -l 25 -p dmenu:'
 
+# Look into `scrot` as an alternative
+bindsym $mod+Print exec --no-startup-id xfce4-screenshooter -f -s Pictures/screenshots/Screenshot_`date +%Y-%m-%d_%H-%M-%S`.png
+
 # change focus
 bindsym $mod+j focus left
 bindsym $mod+k focus down
@@ -85,7 +88,7 @@ bindsym $mod+a focus parent
 
 set $workspace1 "1: "
 set $workspace2 "2: "
-set $workspace3 "3"
+set $workspace3 "3: "
 set $workspace4 "4"
 set $workspace5 "5"
 set $workspace6 "6"
@@ -201,11 +204,15 @@ bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -R
 bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+10 i3blocks
 
 
-# Media player controls
+# Media player controls (requires: playerctl)
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
+# Screen Brightness (requires: brightnessctl)
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set --exponent 10%+
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set --exponent 10%-
+
 exec_always feh --bg-scale $HOME/Pictures/background.jpg
-# exec google-chrome
-exec compton -f
+
+exec picom -f
