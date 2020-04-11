@@ -8,6 +8,8 @@ Valid options:
     - vim
     - tmux
     - i3
+    - bash
+    - urxvt
 Example: ./makeLinks.sh vim tmux
 EOF
 }
@@ -28,6 +30,8 @@ for ARG in "$@"; do
         vim) vim=true ;;
         i3) i3=true ;;
         tmux) tmux=true ;;
+        bash) bash=true ;;
+        urxvt) urxvt=true ;;
         *)
             echo "$BASH_SOURCE: invalid argument '$ARG'"
             helptext
@@ -87,4 +91,16 @@ fi
 # tmux
 if [ $tmux ]; then
     ln --force --symbolic $DIR/tmux/.tmux.conf $HOME/.tmux.conf
+fi
+
+# bash
+if [ $bash ]; then
+    ln --force --symbolic $DIR/.bashrc $HOME/.bashrc
+    source $HOME/.bashrc
+fi
+
+# urxvt (requires rxvt-unicode)
+if [ $urxvt ]; then
+    ln --force --symbolic $DIR/.Xresources $HOME/.Xresources
+    xrdb $HOME/.Xresources
 fi
