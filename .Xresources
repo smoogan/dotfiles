@@ -1,4 +1,5 @@
-URxvt.font: xft:DejaVuSansMono:size=12
+URxvt.font: xft:Hack\ Nerd\ Font\ Mono:style=Regular:size=12
+
 *.foreground:  #e6d4a3
 *.background:  #1e1e1e
 *.cursorColor: #e6d4a3
@@ -45,3 +46,11 @@ URxvt.pointerColor2: #00ff00
 
 URxvt.fading: 50
 URxvt.depth: 32
+
+Xft.dpi: 96
+Xft.antialias: true
+Xft.hinting: true
+Xft.rgba: rgb
+Xft.autohint: false
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
