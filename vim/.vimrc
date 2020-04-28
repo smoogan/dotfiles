@@ -1,19 +1,96 @@
-scriptencoding utf-8
-set nocompatible
-set exrc
+call plug#begin()
+    Plug 'vim-scripts/Decho'
 
-" curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-"     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-let PLUG_DIRECTORY = "~/.vim/plugged"
-source ~/.vim/baseplugins.vim
+    Plug 'tpope/vim-sensible'
 
-call plug#begin(PLUG_DIRECTORY)
+    Plug 'tpope/vim-surround',
+    Plug 'tpope/vim-repeat',
 
-call Load_base_plugins(PLUG_DIRECTORY)
+    Plug 'morhetz/gruvbox'
 
+    Plug 'itchyny/lightline.vim',
+    Plug 'tpope/vim-fugitive',
+    " Plug 'airblade/vim-gitgutter',
+
+    Plug 'tpope/vim-commentary'
+    " Invoke with \\w for beginnings of words
+    Plug 'easymotion/vim-easymotion'
+
+    Plug 'scrooloose/nerdtree'
+
+    Plug 'ctrlpvim/ctrlp.vim'
+
+    Plug 'autozimu/LanguageClient-neovim', {
+                \ 'branch': 'next',
+                     \ 'do': 'bash install.sh',
+                     \ }
+
+     " (Optional) Multi-entry selection UI.
+     Plug 'junegunn/fzf'
+
+     Plug 'ionide/Ionide-vim', {
+                 \ 'do':  'make fsautocomplete',
+                 \ }
 call plug#end()
 
-nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
+set relativenumber
+set number
+
+set splitbelow
+set splitright
+
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+
+set list
+set listchars=tab:>–,trail:+
+
+set linebreak
+set colorcolumn=81,121
+let &showbreak='> '
+
+set foldmethod=indent
+set foldlevel=4
+
+set mouse=a
+set hlsearch
+set ignorecase
+
+let g:gruvbox_italic=1
+let g:gruvbox_bold=1
+let g:gruvbox_invert_selection=0
+set background=dark
+colorscheme gruvbox
+
+noremap : ;
+noremap ; :
+
+inoremap {<CR> {<CR>}<Esc>O
+
+" Remove trailing whitespace on save and restore cursor to last position
+function! <SID>StripTrailingWhitespace()
+    let saved_cursor = getcurpos()
+    %s/\s\+$//e
+    call setpos('.', saved_cursor)
+endfun
+function! <SID>StripTrailingNewLines()
+    let saved_cursor = getcurpos()
+    %s/\($\n\s*\)\+\%$//e
+    call setpos('.', saved_cursor)
+endfun
+augroup whitespacefix
+    autocmd! BufWritePre
+    autocmd BufWritePre * :call <SID>StripTrailingWhitespace()
+    autocmd BufWritePre * :call <SID>StripTrailingNewLines()
+    autocmd BufWritePre *.php :retab
+augroup end
+autocmd InsertEnter,InsertLeave * set cul!
+
+" When pressing 'O' or 'o' on a commented line, don't automatically add
+" comments (this is an autocmd because of of the c plugin for vim)
+autocmd BufNewFile,BufRead * setlocal formatoptions-=o
+
 
 " LightLine Settings
 let g:lightline = {'colorscheme': 'gruvbox'}
@@ -41,145 +118,67 @@ function! GitBranchTrimmed()
 endfun
 set noshowmode
 
+if executable('ag')
+  " Use ag over grep
+  set grepprg=ag\ --nogroup\ --nocolor
 
-" ColorScheme Settings
-if &term =~ '256color'
-    " Disable Background Color Erase (BCE) so that color schemes
-    " work properly when Vim is used inside tmux, GNU screen, or WSL.
-    set t_ut=
-endif
-let g:gruvbox_italic=1
-let g:gruvbox_bold=1
-let g:gruvbox_italicize_comments=0
-let g:gruvbox_invert_selection=0
-set background=dark
-colorscheme gruvbox
-if exists('+guifont')
-    set guifont=DejaVu\ Sans\ Mono:h10
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
 endif
 
-let g:gitgutter_diff_args = '-w'
 
-"CtrlP Settings
-let g:ctrlp_lazy_update = 100
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_max_files = 0
-let g:ctrlp_working_path_mode = 'rw'
-let g:ctrlp_root_markers = ['.gita']
-" If file is open in buffer on another tab, open a new buffer with the file
-let g:ctrlp_switch_buffer = 'et'
-" if executable('bash')
-"     let g:ctrlp_user_command = 'bash -c ag %s -l --nocolor -g ""'
-" endif
-
-" Indent Guides Settings
-let g:indent_guides_enable_on_vim_startup=0
-let g:indent_guides_guide_size=1
-let g:indent_guides_color_change_percent=90
-
-set foldmethod=expr
-set foldlevel=4
-
-" Setting this to an empty array so we can set project specific values
-
-let g:goyo_height="100%"
-
-set grepprg=grep\ -IHnr
-set ignorecase
-set rnu
-set nu
-
-set hlsearch
-
-map! <C-BS> <C-W>
-
-noremap : ;
-noremap ; :
-
-" TAB mappings
-" noremap tn :tabedit
-" noremap tk :tabnext<CR>
-" noremap tj :tabprevious<CR>
-" noremap th :tabfirst<CR>
-" noremap tl :tablast<CR>
-
-set softtabstop=4
-set shiftwidth=4
-set expandtab
-set list
-set listchars=tab:>–,trail:+
-
-inoremap {<CR> {<CR>}<Esc>O
-" <82> = Ctrl + Shift + b
-" <8e> = Ctrl + Shift + n
-noremap  :NERDTreeToggle<CR><C-W>=
-noremap  :NERDTreeFind<CR><C-W>=
-" <94> = Ctrl + Shift + t
-noremap  :TagbarToggle<CR><C-W>=
-
-" Tagbar config
-" On linux use 'universal-ctags' for PHP support
-if filereadable('C:/Program Files (x86)/Vim/ctags/ctags.exe')
-    let g:tagbar_ctags_bin = 'C:/Program Files (x86)/Vim/ctags/ctags.exe'
-elseif executable('unictags')
-    let g:tagbar_ctags_bin = 'unictags'
-endif
-highlight! link TagbarVisibilityPublic GruvboxGreen
-highlight! link TagbarVisibilityProtected GruvboxBlue
-highlight! link TagbarVisibilityPrivate GruvboxRed
-
-set equalalways
-set splitbelow
-set splitright
-
-set colorcolumn=81,121
-let &showbreak='> '
-
-" Only support unix file formats (will cause dos endings to be displayed)
-" Use `set fileformat=unix` to convert the file
-set fileformats=unix
-
-" When pressing 'O' or 'o' on a commented line, don't automatically add
-" comments (this is an autocmd because of of the c plugin for vim)
-autocmd BufNewFile,BufRead * setlocal formatoptions-=o
-
-" Remove trailing whitespace on save and restore cursor to last position
-function! <SID>StripTrailingWhitespace()
-    let saved_cursor = getcurpos()
-    %s/\s\+$//e
-    call setpos('.', saved_cursor)
-endfun
-function! <SID>StripTrailingNewLines()
-    let saved_cursor = getcurpos()
-    %s/\($\n\s*\)\+\%$//e
-    call setpos('.', saved_cursor)
-endfun
-augroup whitespacefix
-    autocmd! BufWritePre
-    autocmd BufWritePre * :call <SID>StripTrailingWhitespace()
-    autocmd BufWritePre * :call <SID>StripTrailingNewLines()
-    autocmd BufWritePre *.php :retab
-augroup end
-autocmd InsertEnter,InsertLeave * set cul!
+" LanguageClient/Ionide changes needed for NerdFont
+let g:LanguageClient_diagnosticsDisplay = {
+    \ 1: {
+    \     "name": "Error",
+    \     "texthl": "ALEError",
+    \     "signText": "",
+    \     "signTexthl": "ALEErrorSign",
+    \ },
+    \ 2: {
+    \     "name": "Warning",
+    \     "texthl": "ALEWarning",
+    \     "signText": "",
+    \     "signTexthl": "ALEWarningSign",
+    \ },
+    \ 3: {
+    \     "name": "Information",
+    \     "texthl": "ALEInfo",
+    \     "signText": "",
+    \     "signTexthl": "ALEInfoSign",
+    \ },
+    \ 4: {
+    \     "name": "Hint",
+    \     "texthl": "ALEInfo",
+    \     "signText": "➤",
+    \     "signTexthl": "ALEInfoSign",
+    \ },
+    \ }
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+" Or map each action separately
+nnoremap <silent> gk :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gi :call LanguageClient#explainErrorAtPoint()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 " GUI options
-set mouse=a
 set guioptions-=m "Remove menu bar"
 set guioptions-=T "Remove toolbar"
 set guioptions-=e "Disable GUI Tabs"
 set guioptions-=r "Remove right-hand scroll bar"
 set guioptions-=L "Remove left-hand scroll bar"
+if exists('+guifont')
+    set guifont=DejaVu\ Sans\ Mono:h10
+endif
 
-" Windows flags
+
+" Windows specific
 if exists('+shellslash')
     " Use forward slash in windows
     set shellslash
 endif
 
-" Requires the DLL from: http://www.vim.org/scripts/script.php?script_id=2596
-"  (won't do anything in neovim)
-if exists('+libcall')
-    map <F11> <Esc>;call libcallnr("gvimfullscreen.dll", "ToggleFullScreen", 0)<CR>
-endif
 
 set secure
