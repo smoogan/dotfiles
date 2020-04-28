@@ -86,6 +86,16 @@ augroup whitespacefix
     autocmd BufWritePre *.php :retab
 augroup end
 autocmd InsertEnter,InsertLeave * set cul!
+if &term =~ 'rxvt'
+    let &t_SI = "\<Esc>[6 q"
+    let &t_SR = "\<Esc>[4 q"
+    let &t_EI = "\<Esc>[2 q"
+endif
+if &term =~ '256color'
+    " Disable Background Color Erase (BCE) so that color schemes
+    " work properly when Vim is used inside tmux, GNU screen, or WSL.
+    set t_ut=
+endif
 
 " When pressing 'O' or 'o' on a commented line, don't automatically add
 " comments (this is an autocmd because of of the c plugin for vim)
