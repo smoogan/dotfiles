@@ -82,7 +82,7 @@ fi
 
 # tmux
 if [ $tmux ]; then
-    ln --force --symbolic $DIR/tmux/.tmux.conf $HOME/.tmux.conf
+    ln --force --symbolic $DIR/tmux/.tmux.conf $HOME/.config/tmux/tmux.conf
 fi
 
 # bash

@@ -148,6 +148,7 @@ source /usr/share/fzf/key-bindings.bash
 
 export HISTCONTROL=ignoreboth:erasedups
 export EDITOR=/usr/bin/vim
+export XDG_CONFIG_HOME=~/.config
 
 # .NET Settings
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
