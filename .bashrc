@@ -76,8 +76,6 @@ match_lhs=""
         fi
 
         alias ls='ls --group-directories-first --color=auto --indicator-style=slash'
-        alias ll='ls -lh'
-        alias la='ls -Alh'
         alias grep='grep --colour=auto'
         alias egrep='egrep --colour=auto'
         alias fgrep='fgrep --colour=auto'
@@ -97,6 +95,11 @@ match_lhs=""
     alias free='free -m'                      # show sizes in MB
     alias np='nano -w PKGBUILD'
     alias more=less
+    alias ll='ls -lh'
+    alias la='ls -Alh'
+    alias gs='git status'
+    alias gd='git diff'
+    alias gl='git log'
 
     xhost +local:root > /dev/null 2>&1
 
@@ -145,4 +148,6 @@ source /usr/share/fzf/key-bindings.bash
 
 export HISTCONTROL=ignoreboth:erasedups
 export EDITOR=/usr/bin/vim
+
+# .NET Settings
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
