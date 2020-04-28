@@ -8,6 +8,7 @@ Valid options:
     - vim
     - tmux
     - i3
+    - fonts
     - bash
     - urxvt
 Example: ./makeLinks.sh vim tmux
@@ -29,6 +30,7 @@ for ARG in "$@"; do
     case "$ARG" in
         vim) vim=true ;;
         i3) i3=true ;;
+        fonts) fonts=true ;;
         tmux) tmux=true ;;
         bash) bash=true ;;
         urxvt) urxvt=true ;;
@@ -48,6 +50,11 @@ if [ $vim ]; then
             https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     fi
     ln --force --symbolic $DIR/vim/.vimrc $HOME/.vimrc
+fi
+
+# Fonts
+if [ $fonts ]; then
+    ln --force --symbolic $DIR/fonts $HOME/.fonts
 fi
 
 # i3wm (sudo apt install i3-wm i3blocks rofi)
