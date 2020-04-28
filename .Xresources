@@ -1,4 +1,7 @@
 URxvt.font: xft:Hack\ Nerd\ Font\ Mono:style=Regular:size=12
+URxvt.boldFont: xft:Hack\ Nerd\ Font\ Mono:style=Bold:size=12
+URxvt.italicFont: xft:Hack\ Nerd\ Font\ Mono:style=Italic:size=12
+URxvt.boldItalicFont: xft:Hack\ Nerd\ Font\ Mono:style=Bold\ Italic:size=12
 
 *.foreground:  #e6d4a3
 *.background:  #1e1e1e
