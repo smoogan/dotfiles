@@ -72,7 +72,10 @@ fi
 
 # tmux
 if [ $tmux ]; then
+    mkdir --parents $HOME/.config/tmux/
     ln --force --symbolic $DIR/tmux/tmux.conf $HOME/.config/tmux/tmux.conf
+    # Needed until wider release of Tmux 3.2 (for XDG_CONFIG_HOME support)
+    ln --force --symbolic $DIR/tmux/tmux.conf $HOME/.tmux.conf
 fi
 
 # bash

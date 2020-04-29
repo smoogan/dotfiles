@@ -143,8 +143,11 @@ ex ()
     fi
 }
 
-source /usr/share/fzf/completion.bash
-source /usr/share/fzf/key-bindings.bash
+if [ -d /usr/share/fzf ]; then
+    source /usr/share/fzf/completion.bash
+    source /usr/share/fzf/key-bindings.bash
+fi
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 export HISTCONTROL=ignoreboth:erasedups
 export EDITOR=/usr/bin/vim
@@ -152,3 +155,8 @@ export XDG_CONFIG_HOME=~/.config
 
 # .NET Settings
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
+
+# Note: Bash on Windows does not currently apply umask properly.
+if [ "$(umask)" = "0000" ]; then
+    umask 022
+fi
