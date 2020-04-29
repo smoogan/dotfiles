@@ -43,10 +43,6 @@ URxvt.scrollstyle: plain
 URxvt.scrollBar_right: true
 URxvt.saveLines: 100000
 
-/* URxvt.pointerBlank: true */
-URxvt.pointerColor: #ff0000
-URxvt.pointerColor2: #00ff00
-
 URxvt.fading: 50
 URxvt.depth: 32
 
