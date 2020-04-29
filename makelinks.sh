@@ -61,6 +61,7 @@ fi
 if [ $i3 ]; then
     ln --force --symbolic $DIR/i3/i3blocks.conf $HOME/.config/i3/i3blocks.conf
     ln --force --symbolic $DIR/i3/config $HOME/.config/i3/config
+    ln --force --symbolic $DIR/i3/toggleDisplay.sh $HOME/.config/i3/toggleDisplay.sh
 
     if [ ! -d $HOME/.config/i3/i3blocks-scripts ]; then
         git clone https://github.com/vivien/i3blocks-contrib.git \
