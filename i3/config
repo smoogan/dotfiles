@@ -25,22 +25,25 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-# bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 300 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "SFNS Display 18"
+bindsym $mod+d exec rofi -show drun
+bindsym $mod+Tab exec rofi -show window
+bindsym Mod1+Tab exec rofi -show windowcd
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
-bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu='dmenu -i -l 25 -p dmenu:'
+# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu='dmenu -i -p dmenu:'
 
 # Look into `scrot` as an alternative
 bindsym $mod+Print exec --no-startup-id xfce4-screenshooter -f -s Pictures/screenshots/Screenshot_`date +%Y-%m-%d_%H-%M-%S`.png
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+# TODO: Change to vimish bindings
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -49,10 +52,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -61,10 +64,10 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+- split h
 
 # split in vertical orientation
-bindsym $mod+v split v
+bindsym $mod+\ split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -157,17 +160,17 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-set $bg-color            #2f343f
-set $inactive-bg-color   #2f343f
-set $text-color          #f3f4f5
-set $inactive-text-color #676E7D
-set $urgent-bg-color     #E53935
+set $bg-color            #282828
+set $active-bg-color     #98971a
+set $text-color          #fbf1c7
+set $inactive-text-color #7c6f64
+set $urgent-bg-color     #cc241d
 
 # window colors
 #                       border              background         text                 indicator
-client.focused          $bg-color           $bg-color          $text-color          #00ff00
-client.unfocused        $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
-client.focused_inactive $inactive-bg-color  $inactive-bg-color $inactive-text-color #00ff00
+client.focused          $active-bg-color    $active-bg-color   $text-color          #00ff00
+client.unfocused        $bg-color  	    $bg-color 	       $inactive-text-color #00ff00
+client.focused_inactive $bg-color	    $bg-color	       $inactive-text-color #00ff00
 client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
 
 hide_edge_borders both
@@ -181,10 +184,10 @@ bar {
 
     colors {
         background $bg-color
-        separator #757575
+        separator #a89984
         #                  border             background         text
-        focused_workspace  $bg-color          $bg-color          $text-color
-        inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
+        focused_workspace  $active-bg-color   $active-bg-color   $text-color
+        inactive_workspace $bg-color          $bg-color		 $inactive-text-color
         urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
     }
 
