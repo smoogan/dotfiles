@@ -90,6 +90,7 @@ match_lhs=""
 
     unset use_color safe_term match_lhs sh
 
+    alias ..="cd .."
     alias cp="cp -i"                          # confirm before overwriting something
     alias df='df -h'                          # human-readable sizes
     alias free='free -m'                      # show sizes in MB
