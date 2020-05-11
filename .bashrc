@@ -150,12 +150,15 @@ if [ -d /usr/share/fzf ]; then
 fi
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
+export HISTSIZE=1000000
 export HISTCONTROL=ignoreboth:erasedups
 export EDITOR=/usr/bin/vim
-export XDG_CONFIG_HOME=~/.config
+export XDG_CONFIG_HOME=$HOME/.config
+export EXERCISM_CONFIG_HOME=$HOME/snap/exercism/5/.config/exercism
 
 # .NET Settings
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
+PATH=$PATH:$HOME/.dotnet/tools/
 
 # Note: Bash on Windows does not currently apply umask properly.
 if [ "$(umask)" = "0000" ]; then
