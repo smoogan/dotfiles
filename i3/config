@@ -37,6 +37,7 @@ bindsym Mod1+Tab exec rofi -show windowcd
 
 # Look into `scrot` as an alternative
 bindsym $mod+Print exec --no-startup-id xfce4-screenshooter -f -s Pictures/screenshots/Screenshot_`date +%Y-%m-%d_%H-%M-%S`.png
+bindsym XF86Launch1 exec --no-startup-id xfce4-screenshooter -f -s Pictures/screenshots/Screenshot_`date +%Y-%m-%d_%H-%M-%S`.png
 
 # change focus
 # TODO: Change to vimish bindings
