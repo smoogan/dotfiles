@@ -101,6 +101,8 @@ match_lhs=""
     alias gs='git status'
     alias gd='git diff'
     alias gl='git log'
+    alias gf='git fetch'
+    alias gp='git pull'
 
     xhost +local:root > /dev/null 2>&1
 
