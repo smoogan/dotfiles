@@ -161,22 +161,34 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+# hide_edge_borders both
+default_border pixel
+title_align center
+
 set $bg-color            #282828
 set $active-bg-color     #98971a
 set $text-color          #fbf1c7
 set $inactive-text-color #7c6f64
 set $urgent-bg-color     #cc241d
 
-# window colors
-#                       border              background         text                 indicator
-client.focused          $active-bg-color    $active-bg-color   $text-color          #00ff00
-client.unfocused        $bg-color  	    $bg-color 	       $inactive-text-color #00ff00
-client.focused_inactive $bg-color	    $bg-color	       $inactive-text-color #00ff00
-client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
 
-hide_edge_borders both
-default_border pixel
-title_align center
+set $fg        #ebdbb2
+set $bg        #282828
+set $red       #cc241d
+set $green     #98971a
+set $yellow    #d79921
+set $blue      #458588
+set $purple    #b16286
+set $aqua      #689d68
+set $gray      #a89984
+set $darkgray  #1d2021
+
+# Window title bars & borders section
+# class                  border     backgr     text       indicator  child_border
+client.focused           $green     $green     $darkgray  $purple    $darkgray
+client.focused_inactive  $darkgray  $darkgray  $yellow    $purple    $darkgray
+client.unfocused         $darkgray  $darkgray  $gray      $purple    $darkgray
+client.urgent            $red       $red       $white     $red       $red
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -186,27 +198,27 @@ bar {
     tray_output primary
 
     colors {
-        background $bg-colorF0
-        separator #a89984
-        #                  border             background         text
-        focused_workspace  $active-bg-color   $active-bg-color   $text-color
-        inactive_workspace $bg-color          $bg-color		 $inactive-text-color
-        urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
-    }
+        # bar background color
+        background $bgF0
+        # text color used for blocks that do not have a color specified.
+        statusline $gray
 
+        # workspaces section
+        # class             border   backgr.     text
+        focused_workspace   $bg      $green      $darkgray
+        inactive_workspace  $bg      $darkgray   $gray
+        active_workspace    $bg      $darkgray   $gray
+        urgent_workspace    $red     $red        $bg
+    }
 }
 
 bindsym $mod+shift+x Exec i3lock --color "$bg-color"
 
-# Pulse Audio controls
-# bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
-# bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
-# bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
-
+## XF86 Key mappings ##
+# Volume controls
 bindsym XF86AudioRaiseVolume exec amixer -q -D pulse sset Master 5%+ && pkill -RTMIN+10 i3blocks
 bindsym XF86AudioLowerVolume exec amixer -q -D pulse sset Master 5%- && pkill -RTMIN+10 i3blocks
 bindsym XF86AudioMute exec amixer -q -D pulse sset Master toggle && pkill -RTMIN+10 i3blocks
-
 
 # Media player controls (requires: playerctl)
 bindsym XF86AudioPlay exec playerctl play-pause
