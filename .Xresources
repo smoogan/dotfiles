@@ -43,13 +43,4 @@ URxvt.scrollstyle: plain
 URxvt.scrollBar_right: true
 URxvt.saveLines: 100000
 
-URxvt.fading: 50
 URxvt.depth: 32
-
-Xft.dpi: 96
-Xft.antialias: true
-Xft.hinting: true
-Xft.rgba: rgb
-Xft.autohint: false
-Xft.hintstyle: hintslight
-Xft.lcdfilter: lcddefault
