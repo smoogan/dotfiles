@@ -100,6 +100,7 @@ match_lhs=""
     alias la='ls -Alh'
     alias gs='git status'
     alias gd='git diff'
+    alias gd='git difftool'
     alias gl='git log'
     alias gf='git fetch'
     alias gp='git pull'
