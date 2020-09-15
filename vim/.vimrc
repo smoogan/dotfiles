@@ -22,8 +22,8 @@ call plug#begin()
 
     Plug 'autozimu/LanguageClient-neovim', {
                 \ 'branch': 'next',
-                     \ 'do': 'bash install.sh',
-                     \ }
+                \ 'do': 'bash install.sh',
+                \ }
 
      " (Optional) Multi-entry selection UI.
      Plug 'junegunn/fzf'
@@ -31,7 +31,82 @@ call plug#begin()
      Plug 'ionide/Ionide-vim', {
                  \ 'do':  'make fsautocomplete',
                  \ }
+
+     " C# Support
+    Plug 'OmniSharp/omnisharp-vim'
+    Plug 'w0rp/ale'
 call plug#end()
+
+
+
+" C# Stuff
+let g:OmniSharp_server_path = '/mnt/c/Omnisharp/omnisharp-win-x64/OmniSharp.exe'
+let g:OmniSharp_translate_cygwin_wsl = 1
+let g:OmniSharp_server_stdio = 1
+set completeopt=longest,menuone,preview ",popuphidden
+let g:omnicomplete_fetch_full_documentation = 1
+let g:OmniSharp_timeout = 5
+let g:ale_linters = { 'cs': ['OmniSharp'] }
+let g:OmniSharp_highlight_types = 2
+
+augroup omnisharp_commands
+    autocmd!
+
+    " Show type information automatically when the cursor stops moving.
+    " Note that the type is echoed to the Vim command line, and will overwrite
+    " any other messages in this space including e.g. ALE linting messages.
+    autocmd CursorHold *.cs OmniSharpTypeLookup
+
+    " The following commands are contextual, based on the cursor position.
+    autocmd FileType cs nnoremap <buffer> gd :OmniSharpGotoDefinition<CR>
+    autocmd FileType cs nnoremap <buffer> gp :OmniSharpPreviewImplementation<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>fi :OmniSharpFindImplementations<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>fs :OmniSharpFindSymbol<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>fu :OmniSharpFindUsages<CR>
+
+    " Finds members in the current buffer
+    autocmd FileType cs nnoremap <buffer> <Leader>fm :OmniSharpFindMembers<CR>
+
+    autocmd FileType cs nnoremap <buffer> <Leader>fx :OmniSharpFixUsings<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>tt :OmniSharpTypeLookup<CR>
+    autocmd FileType cs nnoremap <buffer> <Leader>dc :OmniSharpDocumentation<CR>
+    autocmd FileType cs nnoremap <buffer> <C-\> :OmniSharpSignatureHelp<CR>
+    autocmd FileType cs inoremap <buffer> <C-\> <C-o>:OmniSharpSignatureHelp<CR>
+
+    " Navigate up and down by method/property/field
+    autocmd FileType cs nnoremap <buffer> <C-k> :OmniSharpNavigateUp<CR>
+    autocmd FileType cs nnoremap <buffer> <C-j> :OmniSharpNavigateDown<CR>
+
+    " Find all code errors/warnings for the current solution and populate the quickfix window
+    autocmd FileType cs nnoremap <buffer> <Leader>cc :OmniSharpGlobalCodeCheck<CR>
+augroup END
+
+" Contextual code actions (uses fzf, CtrlP or unite.vim when available)
+nnoremap <Leader><Space> :OmniSharpGetCodeActions<CR>
+" Run code actions with text selected in visual mode to extract method
+xnoremap <Leader><Space> :call OmniSharp#GetCodeActions('visual')<CR>
+
+" Rename with dialog
+nnoremap <Leader>nm :OmniSharpRename<CR>
+nnoremap <F2> :OmniSharpRename<CR>
+" Rename without dialog - with cursor on the symbol to rename: `:Rename newname`
+command! -nargs=1 Rename :call OmniSharp#RenameTo("<args>")
+
+nnoremap <Leader>cf :OmniSharpCodeFormat<CR>
+
+" Start the omnisharp server for the current solution
+nnoremap <Leader>ss :OmniSharpStartServer<CR>
+nnoremap <Leader>sp :OmniSharpStopServer<CR>
+
+" Enable snippet completion
+" let g:OmniSharp_want_snippet=1
+
+
+
+
+
+
+
 
 set relativenumber
 set number
@@ -48,7 +123,7 @@ set listchars=tab:>–,trail:+
 
 set linebreak
 set colorcolumn=81,121
-let &showbreak='> '
+let &showbreak='>> '
 
 set foldmethod=indent
 set foldlevel=4
@@ -85,6 +160,7 @@ augroup whitespacefix
     autocmd BufWritePre * :call <SID>StripTrailingNewLines()
     autocmd BufWritePre *.php :retab
 augroup end
+set cul
 autocmd InsertEnter,InsertLeave * set cul!
 if &term =~ 'rxvt'
     let &t_SI = "\<Esc>[6 q"
@@ -105,21 +181,21 @@ autocmd BufNewFile,BufRead * setlocal formatoptions-=o
 " LightLine Settings
 let g:lightline = {'colorscheme': 'gruvbox'}
 let g:lightline.active = {
-    \ 'left': [ [ 'mode', 'paste' ],
-    \           [ 'gitbranch'],
-    \           [ 'readonly', 'filename', 'modified' ] ],
-    \ 'right': [ [ 'percent', 'lineinfo' ],
-    \            [ 'fileformat', 'fileencoding', 'filetype' ],
-    \            [ 'syntastic'] ] }
+            \ 'left': [ [ 'mode', 'paste' ],
+            \           [ 'gitbranch'],
+            \           [ 'readonly', 'filename', 'modified' ] ],
+            \ 'right': [ [ 'percent', 'lineinfo' ],
+            \            [ 'fileformat', 'fileencoding', 'filetype' ],
+            \            [ 'syntastic'] ] }
 let g:lightline.inactive = {
-    \ 'left': [ [ 'filename', 'modified'] ],
-    \ 'right': [ [ 'lineinfo' ],
-    \            [ 'percent' ] ] }
+            \ 'left': [ [ 'filename', 'modified'] ],
+            \ 'right': [ [ 'lineinfo' ],
+            \            [ 'percent' ] ] }
 let g:lightline.tabline = {
-    \ 'left': [ [ 'tabs' ] ],
-    \ 'right': [ [ 'close' ] ] }
+            \ 'left': [ [ 'tabs' ] ],
+            \ 'right': [ [ 'close' ] ] }
 let g:lightline.component_function = {
-    \ 'gitbranch': 'GitBranchTrimmed' }
+            \ 'gitbranch': 'GitBranchTrimmed' }
 function! GitBranchTrimmed()
     let gitbranch = fugitive#head()
     return gitbranch
@@ -128,44 +204,45 @@ function! GitBranchTrimmed()
 endfun
 set noshowmode
 
-if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
+if executable('rg')
+    " Use ag over grep
+    set grepprg=rg\ --vimgrep
 
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
+    " Use rg in CtrlP for listing files. Lightning fast and respects .gitignore
+    let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+    " ag is fast enough that CtrlP doesn't need to cache
+    let g:ctrlp_use_caching = 0
 endif
+nnoremap <c-o> :CtrlPBuffer<CR>
 
 
 " LanguageClient/Ionide changes needed for NerdFont
 let g:LanguageClient_diagnosticsDisplay = {
-    \ 1: {
-    \     "name": "Error",
-    \     "texthl": "ALEError",
-    \     "signText": "",
-    \     "signTexthl": "ALEErrorSign",
-    \ },
-    \ 2: {
-    \     "name": "Warning",
-    \     "texthl": "ALEWarning",
-    \     "signText": "",
-    \     "signTexthl": "ALEWarningSign",
-    \ },
-    \ 3: {
-    \     "name": "Information",
-    \     "texthl": "ALEInfo",
-    \     "signText": "",
-    \     "signTexthl": "ALEInfoSign",
-    \ },
-    \ 4: {
-    \     "name": "Hint",
-    \     "texthl": "ALEInfo",
-    \     "signText": "➤",
-    \     "signTexthl": "ALEInfoSign",
-    \ },
-    \ }
+            \ 1: {
+            \     "name": "Error",
+            \     "texthl": "ALEError",
+            \     "signText": "",
+            \     "signTexthl": "ALEErrorSign",
+            \ },
+            \ 2: {
+            \     "name": "Warning",
+            \     "texthl": "ALEWarning",
+            \     "signText": "",
+            \     "signTexthl": "ALEWarningSign",
+            \ },
+            \ 3: {
+            \     "name": "Information",
+            \     "texthl": "ALEInfo",
+            \     "signText": "",
+            \     "signTexthl": "ALEInfoSign",
+            \ },
+            \ 4: {
+            \     "name": "Hint",
+            \     "texthl": "ALEInfo",
+            \     "signText": "➤",
+            \     "signTexthl": "ALEInfoSign",
+            \ },
+            \ }
 nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 " Or map each action separately
 nnoremap <silent> gk :call LanguageClient#textDocument_hover()<CR>
@@ -183,6 +260,8 @@ if exists('+guifont')
     set guifont=DejaVu\ Sans\ Mono:h10
 endif
 
+" Custom filetypes
+au BufRead,BufNewFile *.lookml set filetype=yaml
 
 " Windows specific
 if exists('+shellslash')
