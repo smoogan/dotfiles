@@ -25,12 +25,12 @@ call plug#begin()
                 \ 'do': 'bash install.sh',
                 \ }
 
-     " (Optional) Multi-entry selection UI.
-     Plug 'junegunn/fzf'
+    " (Optional) Multi-entry selection UI.
+    Plug 'junegunn/fzf'
 
-     Plug 'ionide/Ionide-vim', {
-                 \ 'do':  'make fsautocomplete',
-                 \ }
+    Plug 'ionide/Ionide-vim', {
+                \ 'do':  'make fsautocomplete',
+                \ }
 
      " C# Support
     Plug 'OmniSharp/omnisharp-vim'
@@ -137,6 +137,7 @@ let g:gruvbox_bold=1
 let g:gruvbox_invert_selection=0
 set background=dark
 colorscheme gruvbox
+highlight Normal ctermbg=None
 
 noremap : ;
 noremap ; :
@@ -248,6 +249,7 @@ nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 nnoremap <silent> gk :call LanguageClient#textDocument_hover()<CR>
 nnoremap <silent> gi :call LanguageClient#explainErrorAtPoint()<CR>
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> ga :call LanguageClient#textDocument_codeAction()<CR>
 nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 " GUI options
