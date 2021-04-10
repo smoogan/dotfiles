@@ -32,7 +32,8 @@ call plug#begin()
                 \ 'do':  'make fsautocomplete',
                 \ }
 
-     " C# Support
+    " C# Support
+    Plug 'jlcrochet/vim-razor'
     Plug 'OmniSharp/omnisharp-vim'
     Plug 'w0rp/ale'
 call plug#end()
@@ -40,8 +41,8 @@ call plug#end()
 
 
 " C# Stuff
-let g:OmniSharp_server_path = '/mnt/c/Omnisharp/omnisharp-win-x64/OmniSharp.exe'
-let g:OmniSharp_translate_cygwin_wsl = 1
+" let g:OmniSharp_server_path = '/mnt/c/Omnisharp/omnisharp-win-x64/OmniSharp.exe'
+" let g:OmniSharp_translate_cygwin_wsl = 1
 let g:OmniSharp_server_stdio = 1
 set completeopt=longest,menuone,preview ",popuphidden
 let g:omnicomplete_fetch_full_documentation = 1
@@ -264,6 +265,8 @@ endif
 
 " Custom filetypes
 au BufRead,BufNewFile *.lookml set filetype=yaml
+" au BufRead,BufNewFile *.cshtml set filetype=html
+" au BufRead,BufNewFile *.razor set filetype=html
 
 " Windows specific
 if exists('+shellslash')
