@@ -1,0 +1,23 @@
+{
+    "workbench.colorTheme": "Gruvbox Material Dark",
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [";"],
+            "after": [":"],
+        },
+        {
+            "before": [":"],
+            "after": [";"],
+        },
+    ],
+    "gruvboxMaterial.darkContrast": "hard",
+    "csharp.semanticHighlighting.enabled": true,
+    "vim.easymotion": true,
+    "vim.foldfix": true,
+    "editor.rulers": [
+        100
+    ],
+    "editor.acceptSuggestionOnCommitCharacter": false,
+    "files.trimTrailingWhitespace": true,
+    "files.trimFinalNewlines": true
+}

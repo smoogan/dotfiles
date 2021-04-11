@@ -11,6 +11,7 @@ Valid options:
     - fonts
     - bash
     - urxvt
+    - vscode
 Example: ./makeLinks.sh vim tmux
 EOF
 }
@@ -34,6 +35,7 @@ for ARG in "$@"; do
         tmux) tmux=true ;;
         bash) bash=true ;;
         urxvt) urxvt=true ;;
+        vscode) vscode=true ;;
         *)
             echo "$BASH_SOURCE: invalid argument '$ARG'"
             helptext
@@ -88,4 +90,9 @@ fi
 if [ $urxvt ]; then
     ln --force --symbolic $DIR/.Xresources $HOME/.Xresources
     xrdb $HOME/.Xresources
+fi
+
+# VS Code
+if [ $vscode ]; then
+    ln --force --symbolic $DIR/vscode/settings.json $HOME/.config/Code/User/settings.json
 fi
