@@ -10,9 +10,12 @@ call plug#begin()
 
     Plug 'itchyny/lightline.vim',
     Plug 'tpope/vim-fugitive',
+    Plug 'tpope/vim-rhubarb'
+
     " Plug 'airblade/vim-gitgutter',
 
     Plug 'tpope/vim-commentary'
+    Plug 'tpope/vim-obsession'
     " Invoke with \\w for beginnings of words
     Plug 'easymotion/vim-easymotion'
 
@@ -22,6 +25,7 @@ call plug#begin()
 
     Plug 'autozimu/LanguageClient-neovim', {
                 \ 'branch': 'next',
+                \ 'tag': '0.1.155',
                 \ 'do': 'bash install.sh',
                 \ }
 
@@ -41,10 +45,11 @@ call plug#end()
 
 
 " C# Stuff
-" let g:OmniSharp_server_path = '/mnt/c/Omnisharp/omnisharp-win-x64/OmniSharp.exe'
-" let g:OmniSharp_translate_cygwin_wsl = 1
-let g:OmniSharp_server_stdio = 1
+let g:OmniSharp_server_path = '/mnt/c/Omnisharp/omnisharp-win-x64-1_37_3/OmniSharp.exe'
+let g:OmniSharp_translate_cygwin_wsl = 1
 set completeopt=longest,menuone,preview ",popuphidden
+set completeopt=longest,menuone,popuphidden
+set completepopup=highlight:Pmenu,border:off
 let g:omnicomplete_fetch_full_documentation = 1
 let g:OmniSharp_timeout = 5
 let g:ale_linters = { 'cs': ['OmniSharp'] }
@@ -133,12 +138,16 @@ set mouse=a
 set hlsearch
 set ignorecase
 
-let g:gruvbox_italic=1
+set spelllang=en_us
+
+" let g:gruvbox_italic=1
+let g:gruvbox_italic=0
 let g:gruvbox_bold=1
 let g:gruvbox_invert_selection=0
+let g:gruvbox_guisp_fallback='bg'
 set background=dark
 colorscheme gruvbox
-highlight Normal ctermbg=None
+" highlight Normal ctermbg=None
 
 noremap : ;
 noremap ; :
@@ -214,6 +223,7 @@ if executable('rg')
     let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
     " ag is fast enough that CtrlP doesn't need to cache
     let g:ctrlp_use_caching = 0
+    let g:ctrlp_working_path_mode = 0
 endif
 nnoremap <c-o> :CtrlPBuffer<CR>
 
@@ -265,8 +275,7 @@ endif
 
 " Custom filetypes
 au BufRead,BufNewFile *.lookml set filetype=yaml
-" au BufRead,BufNewFile *.cshtml set filetype=html
-" au BufRead,BufNewFile *.razor set filetype=html
+au BufRead,BufNewFile *.md setlocal spell
 
 " Windows specific
 if exists('+shellslash')
