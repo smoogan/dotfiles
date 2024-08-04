@@ -32,21 +32,23 @@ call plug#begin()
     " (Optional) Multi-entry selection UI.
     Plug 'junegunn/fzf'
 
-    Plug 'ionide/Ionide-vim', {
-                \ 'do':  'make fsautocomplete',
-                \ }
+    Plug 'ionide/Ionide-vim'
 
     " C# Support
     Plug 'jlcrochet/vim-razor'
     Plug 'OmniSharp/omnisharp-vim'
     Plug 'w0rp/ale'
+    Plug 'prabirshrestha/asyncomplete.vim'
+
+    Plug 'editorconfig/editorconfig-vim'
 call plug#end()
 
 
-
 " C# Stuff
-let g:OmniSharp_server_path = '/mnt/c/Omnisharp/omnisharp-win-x64-1_37_3/OmniSharp.exe'
-let g:OmniSharp_translate_cygwin_wsl = 1
+" let g:OmniSharp_server_path = '/mnt/c/Omnisharp/omnisharp-win-x64/OmniSharp.exe'
+" let g:OmniSharp_translate_cygwin_wsl = 1
+let g:OmniSharp_server_stdio = 1
+let g:OmniSharp_server_use_net6 = 1
 set completeopt=longest,menuone,preview ",popuphidden
 set completeopt=longest,menuone,popuphidden
 set completepopup=highlight:Pmenu,border:off
@@ -54,6 +56,9 @@ let g:omnicomplete_fetch_full_documentation = 1
 let g:OmniSharp_timeout = 5
 let g:ale_linters = { 'cs': ['OmniSharp'] }
 let g:OmniSharp_highlight_types = 2
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
 augroup omnisharp_commands
     autocmd!
@@ -120,7 +125,7 @@ set number
 set splitbelow
 set splitright
 
-set softtabstop=4
+set tabstop=4
 set shiftwidth=4
 set expandtab
 
@@ -167,8 +172,8 @@ function! <SID>StripTrailingNewLines()
 endfun
 augroup whitespacefix
     autocmd! BufWritePre
-    autocmd BufWritePre * :call <SID>StripTrailingWhitespace()
-    autocmd BufWritePre * :call <SID>StripTrailingNewLines()
+    " autocmd BufWritePre * :call <SID>StripTrailingWhitespace()
+    " autocmd BufWritePre * :call <SID>StripTrailingNewLines()
     autocmd BufWritePre *.php :retab
 augroup end
 set cul
@@ -208,7 +213,7 @@ let g:lightline.tabline = {
 let g:lightline.component_function = {
             \ 'gitbranch': 'GitBranchTrimmed' }
 function! GitBranchTrimmed()
-    let gitbranch = fugitive#head()
+    let gitbranch = fugitive#Head()
     return gitbranch
     let pattern = '\w\{1,}/\w\{1,}-\d\{1,}'
     return matchstr(gitbranch, pattern)
@@ -228,6 +233,7 @@ endif
 nnoremap <c-o> :CtrlPBuffer<CR>
 
 
+let g:fsharp#backend = 'langaugeclient-neovim'
 " LanguageClient/Ionide changes needed for NerdFont
 let g:LanguageClient_diagnosticsDisplay = {
             \ 1: {
@@ -274,7 +280,11 @@ if exists('+guifont')
 endif
 
 " Custom filetypes
-au BufRead,BufNewFile *.lookml set filetype=yaml
+autocmd BufRead,BufNewFile *.lookml set filetype=yaml
+" au BufRead,BufNewFile *.cshtml set filetype=html
+" au BufRead,BufNewFile *.razor set filetype=html
+autocmd Filetype yaml setlocal tabstop=2
+" autocmd Filetype yaml setlocal shiftwidth=2
 au BufRead,BufNewFile *.md setlocal spell
 
 " Windows specific
