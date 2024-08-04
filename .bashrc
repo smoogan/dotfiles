@@ -150,6 +150,8 @@ ex ()
 if [ -d /usr/share/fzf ]; then
     source /usr/share/fzf/completion.bash
     source /usr/share/fzf/key-bindings.bash
+elif [ -d /usr/share/doc/fzf ]; then
+    source /usr/share/doc/fzf/examples/key-bindings.bash
 fi
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
