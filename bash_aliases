@@ -22,6 +22,8 @@ alias gl='git log'
 alias gf='git fetch'
 alias gp='git pull'
 
+shopt -s expand_aliases
+
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export HISTSIZE=1000000
 export HISTCONTROL=ignoreboth:erasedups
