@@ -12,6 +12,7 @@ Valid options:
     - fonts
     - bash
     - urxvt
+    - alacritty
     - vscode
 Example: ./makeLinks.sh vim tmux
 EOF
@@ -37,6 +38,7 @@ for ARG in "$@"; do
         git) git=true ;;
         bash) bash=true ;;
         urxvt) urxvt=true ;;
+        alacritty) alacritty=true ;;
         vscode) vscode=true ;;
         *)
             echo "$BASH_SOURCE: invalid argument '$ARG'"
@@ -104,6 +106,11 @@ fi
 if [ $urxvt ]; then
     ln --force --symbolic $DIR/.Xresources $HOME/.Xresources
     xrdb $HOME/.Xresources
+fi
+
+# alacritty
+if [ $alacritty ]; then
+    ln --force --symbolic $DIR/alacritty.toml $XDG_CONFIG_HOME/alacritty/alacritty.toml
 fi
 
 # VS Code

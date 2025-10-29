@@ -1,0 +1,10 @@
+live_config_reload = true
+
+[window]
+# padding = { x = 0, y = 0}
+
+[keyboard]
+# bindings = [
+#     { key = "[", mods = "Control", action = "ToggleViMode" },
+# ]
+
