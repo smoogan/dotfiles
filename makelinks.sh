@@ -7,6 +7,7 @@ links to their required locations.
 Valid options:
     - vim
     - tmux
+    - git
     - i3
     - fonts
     - bash
@@ -33,6 +34,7 @@ for ARG in "$@"; do
         i3) i3=true ;;
         fonts) fonts=true ;;
         tmux) tmux=true ;;
+        git) git=true ;;
         bash) bash=true ;;
         urxvt) urxvt=true ;;
         vscode) vscode=true ;;
@@ -44,6 +46,18 @@ for ARG in "$@"; do
 done
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Git
+if [ $git ]; then
+    ln --force --symbolic $DIR/gitconfig $XDG_CONFIG_HOME/git/config
+
+    read -p "Enter name for Git: " name
+    read -p "Enter email for Git: " email
+
+    echo "[user]" > $XDG_CONFIG_HOME/git/userConfig
+    echo "    name = $name" >> $XDG_CONFIG_HOME/git/userConfig
+    echo "    email = $email" >> $XDG_CONFIG_HOME/git/userConfig
+fi
 
 # VIM
 if [ $vim ]; then
@@ -82,7 +96,7 @@ fi
 
 # bash
 if [ $bash ]; then
-    ln --force --symbolic $DIR/.bashrc $HOME/.bashrc
+    ln --force --symbolic $DIR/bash_aliases $HOME/.bash_aliases
     source $HOME/.bashrc
 fi
 

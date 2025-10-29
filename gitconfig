@@ -1,0 +1,21 @@
+[include]
+    path=userConfig
+
+[core]
+    editor = vim
+[diff]
+	tool = vimdiff
+[help]
+    autoCorrect = prompt
+[core]
+    editor = vim
+
+[branch]
+    sort = -committerdate
+[tag]
+    sort = version:refname
+
+[commit]
+    verbose = true
+[merge]
+	tool = vimdiff
