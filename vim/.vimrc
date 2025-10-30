@@ -154,9 +154,6 @@ set background=dark
 colorscheme gruvbox
 " highlight Normal ctermbg=None
 
-noremap : ;
-noremap ; :
-
 inoremap {<CR> {<CR>}<Esc>O
 
 " Remove trailing whitespace on save and restore cursor to last position
