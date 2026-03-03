@@ -1,9 +1,34 @@
--- Pull in the wezterm API
 local wezterm = require 'wezterm'
 
 local M = {}
 
-local BRANCH_SYMBOL = ""
+function M.get_git_branch(cwd)
+    if not cwd then return "" end
+
+    if cwd:sub(1,1) == '/' then
+        cwd = cwd:sub(2)
+    end
+
+    -- Run git command in the pane's directory
+    local success, stdout, stderr = wezterm.run_child_process({
+        'git', '-C', cwd, 'branch', '--show-current'
+    })
+
+    if success then
+        -- Trim whitespace/newlines
+        return stdout:gsub('%s+', '')
+    end
+    return "Not a git directory"
+    -- return cwd .. ": " .. stderr
+end
+
+function M.add_status_tag()
+
+end
+
+
+
+local BRANCH_SYMBOL = ""
 
 
 local function get_git_branch(cwd)
@@ -65,7 +90,21 @@ end
 local function get_short_cwd(window)
     local cwd = window:active_pane():get_current_working_dir().file_path
 
-    local home = os.getenv("HOME")
+
+    if not cwd then return "" end
+
+
+    if cwd:sub(1,2) == '/C' then
+        cwd = cwd:sub(2)
+    end
+
+    local home = ""
+    if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+        home, _ = os.getenv("UserProfile"):gsub("\\","/")
+    else
+        home = os.getenv("env:HOME")
+    end
+
     local homeLen = home:len()
 
     if cwd:sub(1,homeLen) == home then
@@ -76,9 +115,10 @@ local function get_short_cwd(window)
 end
 
 local function segments_for_right_status(window)
+    local cwd = get_short_cwd(window)
     return {
-        get_git_status(window:active_pane():get_current_working_dir().file_path),
-        get_short_cwd(window),
+        get_git_status(cwd),
+        cwd,
         wezterm.hostname(),
     }
 end
@@ -135,5 +175,7 @@ function M.configure_status_bar()
     end)
 
 end
+
+
 
 return M
