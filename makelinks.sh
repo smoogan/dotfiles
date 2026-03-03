@@ -13,6 +13,7 @@ Valid options:
     - bash
     - urxvt
     - alacritty
+    - wezterm
     - vscode
 Example: ./makeLinks.sh vim tmux
 EOF
@@ -39,6 +40,7 @@ for ARG in "$@"; do
         bash) bash=true ;;
         urxvt) urxvt=true ;;
         alacritty) alacritty=true ;;
+        wezterm) wezterm=true ;;
         vscode) vscode=true ;;
         *)
             echo "$BASH_SOURCE: invalid argument '$ARG'"
@@ -111,6 +113,11 @@ fi
 # alacritty
 if [ $alacritty ]; then
     ln --force --symbolic $DIR/alacritty.toml $XDG_CONFIG_HOME/alacritty/alacritty.toml
+fi
+
+# wezterm
+if [ $wezterm ]; then
+    # ln --force --symbolic $DIR/alacritty.toml $XDG_CONFIG_HOME/alacritty/alacritty.toml
 fi
 
 # VS Code
