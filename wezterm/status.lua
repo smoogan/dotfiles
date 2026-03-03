@@ -78,7 +78,6 @@ end
 local function segments_for_right_status(window)
     return {
         get_git_status(window:active_pane():get_current_working_dir().file_path),
-        get_git_branch(window:active_pane():get_current_working_dir().file_path),
         get_short_cwd(window),
         wezterm.hostname(),
     }
