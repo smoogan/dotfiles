@@ -119,6 +119,7 @@ fi
 if [ $wezterm ]; then
     ln --force --symbolic $DIR/wezterm/status.lua $XDG_CONFIG_HOME/wezterm/status.lua
     ln --force --symbolic $DIR/wezterm/keybindings.lua $XDG_CONFIG_HOME/wezterm/keybindings.lua
+    ln --force --symbolic $DIR/wezterm/git.lua $XDG_CONFIG_HOME/wezterm/git.lua
     ln --force --symbolic $DIR/wezterm/wezterm.lua $XDG_CONFIG_HOME/wezterm/wezterm.lua
 fi
 

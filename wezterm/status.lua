@@ -1,47 +1,16 @@
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
+local git = require 'git'
 
 local M = {}
 
-local BRANCH_SYMBOL = ""
-
-
-local function get_git_branch(cwd)
-    local success, stdout, stderr = wezterm.run_child_process { 'git', '-C', cwd, 'branch', '--show-current' }
-    if success then
-        local branch, _ = stdout:gsub("%s+", "")
-        return BRANCH_SYMBOL .. ' ' .. branch
-    else
+local function get_git_status(cwd)
+    local branch = git.get_branch(cwd)
+    if branch == nil then
         return nil
     end
-end
-
-local function get_git_status(cwd)
-    local branch = get_git_branch(cwd)
-    if branch == nil then return nil end
-    local ahead = ""
-    local behind = ""
-
-
-    local success, stdout, stderr = wezterm.run_child_process { 'git', '-C', cwd, 'rev-list', '--count', 'HEAD..@{u}' }
-    if success then
-        behind, _ = stdout:gsub("%s+", "")
-        if behind ~= "0" then
-            behind = behind .. ' '
-        else
-            behind = ""
-        end
-    end
-
-    local success, stdout, stderr = wezterm.run_child_process { 'git', '-C', cwd, 'rev-list', '--count', '@{u}..HEAD' }
-    if success then
-        ahead, _ = stdout:gsub("%s+", "")
-        if ahead ~= "0" then
-            ahead = ahead
-        else
-            ahead = ""
-        end
-    end
+    local ahead = git.get_commits_ahead(cwd)
+    local behind = git.get_commits_behind(cwd)
 
     local diverged = ""
     if ahead ~= "" or behind ~= "" then
@@ -49,7 +18,6 @@ local function get_git_status(cwd)
     end
 
     return branch .. ' ' .. ahead .. diverged .. behind
-
 end
 
 local function filter_nils(t)
@@ -62,11 +30,26 @@ local function filter_nils(t)
     return result
 end
 
-local function get_short_cwd(window)
-    local cwd = window:active_pane():get_current_working_dir().file_path
+local function get_cwd(window)
+    local pane = window:active_pane()
+    local cwd_uri = pane:get_current_working_dir()
+    if cwd_uri == nil then
+        return nil
+    end
+
+    return cwd_uri.file_path
+end
+
+local function get_short_cwd(long_cwd)
+    if long_cwd == nil then
+        return ""
+    end
+
+    local cwd = long_cwd
 
     local home = os.getenv("HOME")
     local homeLen = home:len()
+
 
     if cwd:sub(1,homeLen) == home then
         cwd = "~" .. cwd:sub(homeLen+1)
@@ -76,9 +59,10 @@ local function get_short_cwd(window)
 end
 
 local function segments_for_right_status(window)
+    local cwd = get_cwd(window)
     return {
-        get_git_status(window:active_pane():get_current_working_dir().file_path),
-        wezterm.hostname() .. ':' .. get_short_cwd(window),
+        get_git_status(cwd),
+        git.get_reponame(cwd)
     }
 end
 
