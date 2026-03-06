@@ -66,6 +66,19 @@ local function segments_for_right_status(window)
     }
 end
 
+local function get_workspace_elements(window)
+    local elements = {}
+
+    local active_workspace = window:active_workspace()
+
+    local workspace = ""
+    if active_workspace ~= "default" then
+        workspace = active_workspace
+    end
+
+    return workspace
+end
+
 -- functions for keybindings
 function M.configure_status_bar()
     wezterm.on('update-status', function(window, _)
@@ -115,6 +128,7 @@ function M.configure_status_bar()
         end
 
         window:set_right_status(wezterm.format(elements))
+        window:set_left_status(get_workspace_elements(window))
     end)
 
 end
