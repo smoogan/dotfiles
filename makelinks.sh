@@ -53,6 +53,8 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Git
 if [ $git ]; then
+    mkdir --parents $XDG_CONFIG_HOME/git
+
     ln --force --symbolic $DIR/gitconfig $XDG_CONFIG_HOME/git/config
 
     read -p "Enter name for Git: " name
