@@ -11,14 +11,13 @@ alias ..="cd .."
 alias cp="cp -i"                          # confirm before overwriting something
 alias df='df -h'                          # human-readable sizes
 alias free='free -m'                      # show sizes in MB
-alias np='nano -w PKGBUILD'
 alias more=less
 alias ll='ls -lh'
 alias la='ls -Alh'
 alias gs='git status'
 alias gd='git diff'
 alias gdt='git difftool'
-alias gl='git log'
+alias gl='git log --oneline'
 alias gf='git fetch'
 alias gp='git pull'
 
