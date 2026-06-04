@@ -6,6 +6,7 @@ This script takes the configuration files in this repository and creates symboli
 links to their required locations.
 Valid options:
     - vim
+    - nvim
     - tmux
     - git
     - i3
@@ -33,6 +34,7 @@ fi
 for ARG in "$@"; do
     case "$ARG" in
         vim) vim=true ;;
+        nvim) nvim=true ;;
         i3) i3=true ;;
         fonts) fonts=true ;;
         tmux) tmux=true ;;
@@ -72,6 +74,11 @@ if [ $vim ]; then
             https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     fi
     ln --force --symbolic $DIR/vim/.vimrc $HOME/.vimrc
+fi
+
+# NeoVim
+if [ $nvim ]; then
+    ln --force --symbolic $DIR/nvim/* $XDG_CONFIG_HOME/nvim/
 fi
 
 # Fonts
