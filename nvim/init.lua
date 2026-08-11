@@ -28,3 +28,7 @@ vim.opt.ignorecase = true
 vim.opt.spelllang = "en_us"
 
 vim.keymap.set('i', '{<CR>', '{<CR>}<Esc>O', { silent = true })
+
+if vim.fn.executable('rg') == 1 then
+    vim.opt.grepprg = 'rg --vimgrep'
+end
