@@ -58,5 +58,16 @@ return {
                 desc = "Buffer Local Keymaps (which-key)",
             },
         },
-    }
+    },
+    {
+        'nvim-telescope/telescope.nvim', version = '*',
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            -- optional but recommended
+            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+        },
+        keys = {
+            { "<c-p>", "<cmd>Telescope find_files<cr>", desc = "Telescope find files" },
+        }
+    },
 }
