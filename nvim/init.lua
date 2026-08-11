@@ -5,7 +5,6 @@ require("mason").setup({
         "github:mason-org/mason-registry",
         "github:Crashdummyy/mason-registry",
     },
-
 })
 
 vim.opt.number = true
@@ -20,6 +19,8 @@ vim.opt.expandtab = true
 
 vim.opt.list = true
 vim.opt.listchars = "tab:>–,trail:+"
+
+vim.opt.foldmethod = "indent"
 
 vim.opt.colorcolumn = "81,121"
 

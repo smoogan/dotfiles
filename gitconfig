@@ -2,13 +2,19 @@
     path=userConfig
 
 [core]
-    editor = vim
+    editor = nvim
 [diff]
-    tool = vimdiff
+    tool = nvimdiff
+[difftool "nvimdiff"]
+    cmd = nvim -d "$LOCAL" "$REMOTE"
+
+[merge]
+    tool = nvimdiff
+[mergetool "nvimdiff"]
+    cmd = nvim -d -c "4wincmd w | wincmd J" "$LOCAL" "$BASE" "$REMOTE" 
+
 [help]
     autoCorrect = prompt
-[core]
-    editor = vim
 
 [branch]
     sort = -committerdate
@@ -17,9 +23,9 @@
 
 [commit]
     verbose = true
-[merge]
-    tool = vimdiff
 [push]
     autoSetupRemote = true
 [init]
-	defaultBranch = main
+    defaultBranch = main
+[pull]
+	ff = only
